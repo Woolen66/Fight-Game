@@ -10,16 +10,20 @@ public class movement : MonoBehaviour
     private bool isGrounded = true;
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
+    private combat combatSpawner;
     private BoxCollider2D playerCollider;
     public Animator animator;
+    private 
     void Start()
     {
+        combatSpawner = GetComponent<combat>();
         playerCollider = GetComponent<BoxCollider2D>();
         if (playerCollider != null)
         {
             originalColliderSize = playerCollider.size;
             originalColliderOffset = playerCollider.offset;
         }
+
     }
 
     async Task Update()
@@ -73,6 +77,18 @@ public class movement : MonoBehaviour
                 await unCrouchTime(150); // Llamamos a una funcion para que espere el tiempo de la animacion
                 crouch = false;
             }
+        }
+
+        // al pulsar la tecla h  llamaremos al script de combate para ejecutar el puñetazo basico
+        if (Input.GetKeyDown(KeyCode.H) && !crouch && isGrounded)
+        {
+            if (!combatSpawner.getAntiSpam())
+            {
+                combatSpawner.SpawnHitbox();
+                animator.SetBool("punch", true);
+                await combatSpawner.unPunchTime(420);
+            }
+            
         }
     }
 
