@@ -10,13 +10,12 @@ public class movement : MonoBehaviour
     private bool isGrounded = true;
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
-    private combat combatSpawner;
     private BoxCollider2D playerCollider;
     public Animator animator;
-    private 
+    public float movementLockTimer = 0;
+    public bool canMove => movementLockTimer <= 0f;
     void Start()
     {
-        combatSpawner = GetComponent<combat>();
         playerCollider = GetComponent<BoxCollider2D>();
         if (playerCollider != null)
         {
@@ -28,22 +27,28 @@ public class movement : MonoBehaviour
 
     async Task Update()
     {
+        // Tiempo de espera entre ataques
+        if (movementLockTimer > 0)
+        {
+            movementLockTimer -= Time.deltaTime;
+        }
 
         // Basicamente esto es para que no se mueva cuando este agachado
-        if (!crouch)
+        if (!crouch && canMove)
         {
             // Obtener la entrada del teclado solo para las teclas A y D
             float moveX = Input.GetKey(KeyCode.A) ? -1f : (Input.GetKey(KeyCode.D) ? 1f : 0f);
-            
+
             // Animacion de movimiento izq y der
             animator.SetFloat("movement", moveX);
-           
+
             // Crear un vector de movimiento solo en el eje X
             Vector3 movement = new Vector3(moveX, 0f, 0f);
-           
+
             // Aplicar movimiento al objeto
             transform.position += movement * speed * Time.deltaTime;
-        } else
+        }
+        else
         {
             animator.SetFloat("movement", 0);
         }
@@ -78,18 +83,6 @@ public class movement : MonoBehaviour
                 crouch = false;
             }
         }
-
-        // al pulsar la tecla h  llamaremos al script de combate para ejecutar el puñetazo basico
-        if (Input.GetKeyDown(KeyCode.H) && !crouch && isGrounded)
-        {
-            if (!combatSpawner.getAntiSpam())
-            {
-                combatSpawner.SpawnHitbox();
-                animator.SetBool("punch", true);
-                await combatSpawner.unPunchTime(420);
-            }
-            
-        }
     }
 
     // Funcion en la que esperamos x tiempo que es lo que dura la animacion para que haga una transicion
@@ -109,3 +102,5 @@ public class movement : MonoBehaviour
         }
     }
 }
+
+
