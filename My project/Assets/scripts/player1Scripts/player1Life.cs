@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class life : MonoBehaviour
+public class player1Life : MonoBehaviour
 {
     public int playerLife = 100;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

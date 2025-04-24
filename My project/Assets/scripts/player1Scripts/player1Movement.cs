@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class movement : MonoBehaviour
+public class player1Movement : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpForce = 7f;
@@ -12,8 +12,6 @@ public class movement : MonoBehaviour
     private Vector2 originalColliderOffset;
     private BoxCollider2D playerCollider;
     public Animator animator;
-    public float movementLockTimer = 0;
-    public bool canMove => movementLockTimer <= 0f;
     void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
@@ -27,14 +25,9 @@ public class movement : MonoBehaviour
 
     async Task Update()
     {
-        // Tiempo de espera entre ataques
-        if (movementLockTimer > 0)
-        {
-            movementLockTimer -= Time.deltaTime;
-        }
 
         // Basicamente esto es para que no se mueva cuando este agachado
-        if (!crouch && canMove)
+        if (!crouch)
         {
             // Obtener la entrada del teclado solo para las teclas A y D
             float moveX = Input.GetKey(KeyCode.A) ? -1f : (Input.GetKey(KeyCode.D) ? 1f : 0f);
@@ -64,7 +57,7 @@ public class movement : MonoBehaviour
         }
 
         // Reducir hitbox al presionar S
-        if (playerCollider != null)
+        if (playerCollider != null && isGrounded)
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
