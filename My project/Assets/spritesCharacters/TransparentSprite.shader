@@ -11,8 +11,11 @@ Shader "Custom/TransparentSprite"
         Tags {"Queue"="Transparent" "RenderType"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite Off
+
         Pass
         {
+            Cull Off    // <- Esta línea permite renderizar ambas caras
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

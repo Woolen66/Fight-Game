@@ -55,7 +55,7 @@ public class player1AttackController : MonoBehaviour
         {
             if (collider.CompareTag("Player2"))
             {
-                collider.transform.GetComponent<pruebaVida>().takeDamage(totalAttackDamage);
+                collider.transform.GetComponent<player2Life>().takeDamage(totalAttackDamage);
             }
         }
     }

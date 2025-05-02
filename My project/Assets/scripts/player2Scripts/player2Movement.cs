@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class movement : MonoBehaviour
+public class player2Movement : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpForce = 7f;
@@ -12,6 +12,8 @@ public class movement : MonoBehaviour
     private Vector2 originalColliderOffset;
     private BoxCollider2D playerCollider;
     public Animator animator;
+    [HideInInspector]
+    public bool canMove = true;
     void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
@@ -27,7 +29,7 @@ public class movement : MonoBehaviour
     {
 
         // Basicamente esto es para que no se mueva cuando este agachado
-        if (!crouch)
+        if (!crouch && canMove)
         {
             // Obtener la entrada del teclado solo para las teclas A y D
             float moveX = Input.GetKey(KeyCode.LeftArrow) ? -1f : (Input.GetKey(KeyCode.RightArrow) ? 1f : 0f);
@@ -61,8 +63,8 @@ public class movement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.5f);
-                playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - (originalColliderSize.y * 0.25f));
+                playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.75f);
+                playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - (originalColliderSize.y * 0.125f));
                 animator.SetBool("crouch", true); // Animacion de agacharse
                 crouch = true;
             }
@@ -91,7 +93,7 @@ public class movement : MonoBehaviour
         {
             isGrounded = true;
             animator.SetBool("isGround", isGrounded);
-            //animator.SetBool("endJump", true);
+            animator.SetBool("endJump", true);
         }
     }
 }

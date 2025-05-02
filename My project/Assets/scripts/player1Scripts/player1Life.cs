@@ -1,28 +1,43 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class player1Life : MonoBehaviour
 {
-    public int playerLife = 100;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float playerLife = 100;
+    public Animator animator;
+    public player1Movement movementScript;
+    public Rigidbody2D rb;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void takeDamage(int damage)
+    public void takeDamage(float damage)
     {
         playerLife -= damage;
 
-        if (playerLife < 0)
+        if (playerLife <= 0)
         {
-            Debug.Log("player1 muerto");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            return;
         }
+
+        // Animacion de daño
+        animator.SetTrigger("hit");
+
+        // Bloquear movimiento temporalmente
+        StartCoroutine(HitReaction());
+    }
+
+    IEnumerator HitReaction()
+    {
+        if (movementScript != null)
+            movementScript.canMove = false;
+
+        // Empujar un poco hacia la izquierda
+        if (rb != null)
+            rb.linearVelocity = new Vector2(-2f, rb.linearVelocity.y);
+
+        yield return new WaitForSeconds(0.4f); // Duracion de la animacion de daño
+
+        if (movementScript != null)
+            movementScript.canMove = true;
     }
 }

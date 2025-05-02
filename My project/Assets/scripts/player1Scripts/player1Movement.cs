@@ -12,6 +12,8 @@ public class player1Movement : MonoBehaviour
     private Vector2 originalColliderOffset;
     private BoxCollider2D playerCollider;
     public Animator animator;
+    [HideInInspector]
+    public bool canMove = true;
     void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
@@ -27,7 +29,7 @@ public class player1Movement : MonoBehaviour
     {
 
         // Basicamente esto es para que no se mueva cuando este agachado
-        if (!crouch)
+        if (!crouch && canMove)
         {
             // Obtener la entrada del teclado solo para las teclas A y D
             float moveX = Input.GetKey(KeyCode.A) ? -1f : (Input.GetKey(KeyCode.D) ? 1f : 0f);
@@ -61,8 +63,8 @@ public class player1Movement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
-                playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.5f);
-                playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - (originalColliderSize.y * 0.25f));
+                playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.65f);
+                playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - (originalColliderSize.y * 0.175f));
                 animator.SetBool("crouch", true); // Animacion de agacharse
                 crouch = true;
             }
