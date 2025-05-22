@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
 
 public class player1Life : MonoBehaviour
 {
@@ -8,16 +9,26 @@ public class player1Life : MonoBehaviour
     public Animator animator;
     public player1Movement movementScript;
     public Rigidbody2D rb;
+    public PowerBarController powerBar;
+    private GameObject winObject;
 
+    private void Start()
+    {
+        winObject = GameObject.FindGameObjectWithTag("PanelUI");
+    }
     public void takeDamage(float damage)
     {
         playerLife -= damage;
 
         if (playerLife <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            return;
+            win winScript = winObject.GetComponent<win>();
+            winScript.FinishGame("Player2");
+
         }
+
+        if(powerBar.currentPower < powerBar.maxPower)
+            powerBar.AddPower(damage);
 
         // Animacion de daño
         animator.SetTrigger("hit");

@@ -7,16 +7,18 @@ public class lifeBar1 : MonoBehaviour
     private player1Life player1Life;
     private float maxLife;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void SetTarget(player1Life target)
     {
-        player1Life = GameObject.Find("player1").GetComponent<player1Life>();
+        player1Life = target;
         maxLife = player1Life.playerLife;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (lifeFill != null)
         lifeFill.fillAmount = player1Life.playerLife / maxLife;
     }
+
+    
 }

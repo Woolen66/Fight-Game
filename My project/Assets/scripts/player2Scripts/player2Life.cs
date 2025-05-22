@@ -8,16 +8,25 @@ public class player2Life : MonoBehaviour
     public Animator animator;
     public player2Movement movementScript; // Asigna el script de movimiento del Player2
     public Rigidbody2D rb; // Asigna el Rigidbody2D del Player2
+    public PowerBarController powerBar;
+    private GameObject winObject;
 
+    private void Start()
+    {
+        winObject = GameObject.FindGameObjectWithTag("PanelUI");
+    }
     public void takeDamage(float damage)
     {
         playerLife -= damage;
 
         if (playerLife <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            return;
+            win winScript = winObject.GetComponent<win>();
+            winScript.FinishGame("Player1");
         }
+
+        if (powerBar.currentPower < powerBar.maxPower)
+            powerBar.AddPower(damage);
 
         animator.SetTrigger("hit");
         StartCoroutine(HitReaction());

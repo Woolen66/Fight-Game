@@ -370,6 +370,7 @@
 -r:"Library/PackageCache/com.unity.collections@56bff8827a7e/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll"
 -r:"Library/PackageCache/com.unity.ext.nunit@60ef35ffd3cd/net40/unity-custom/nunit.framework.dll"
 -r:"Library/PackageCache/com.unity.nuget.mono-cecil@d6f9955a5d5f/Mono.Cecil.dll"
+-r:"Library/PackageCache/com.unity.nuget.newtonsoft-json@74deb55db2a0/Runtime/Newtonsoft.Json.dll"
 -r:"Library/PackageCache/com.unity.visualscripting@1b53f46e931b/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/PPv2URPConverters.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/PsdPlugin.ref.dll"
@@ -442,15 +443,18 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.0.43f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/scripts/canvaInterface/lifeBar1.cs"
 "Assets/scripts/canvaInterface/lifeBar2.cs"
+"Assets/scripts/canvaInterface/win.cs"
+"Assets/scripts/champSelect/characterSelectionManager.cs"
+"Assets/scripts/champSelect/gameManager.cs"
 "Assets/scripts/MainMenu/MainMenu.cs"
+"Assets/scripts/optionsMenu/PlayerStats.cs"
 "Assets/scripts/player1Scripts/player1AttackController.cs"
 "Assets/scripts/player1Scripts/player1Life.cs"
 "Assets/scripts/player1Scripts/player1Movement.cs"
 "Assets/scripts/player2Scripts/player2AttackController.cs"
 "Assets/scripts/player2Scripts/player2Life.cs"
 "Assets/scripts/player2Scripts/player2Movement.cs"
-"Assets/scripts/prueba.cs"
-"Assets/scripts/pruebaVida.cs"
+"Assets/scripts/powerBar/PowerBarController.cs"
 -langversion:9.0
 /deterministic
 /optimize+
