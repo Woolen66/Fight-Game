@@ -18,7 +18,7 @@ public class player2AttackController : MonoBehaviour
     public float kickRadio;
 
     [Header("Daño base")]
-    public float attackDamage;
+    public int attackDamage;
     public Animator animator;
     public float waitTime;
 
@@ -31,7 +31,7 @@ public class player2AttackController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad5) && waitTime <= 0)
         {
-            Attack(punch2Control, punch2Radio, attackDamage * 1.5f, "punch2");
+            Attack(punch2Control, punch2Radio, attackDamage * 1, "punch2");
             waitTime = 1.2f;
         }
         else if (Input.GetKeyDown(KeyCode.Keypad6) && waitTime <= 0)
@@ -46,7 +46,7 @@ public class player2AttackController : MonoBehaviour
         }
     }
 
-    private void Attack(Transform control, float radius, float totalAttackDamage, string animation)
+    private void Attack(Transform control, float radius, int totalAttackDamage, string animation)
     {
         animator.SetTrigger(animation);
         Collider2D[] objetos = Physics2D.OverlapCircleAll(control.position, radius);

@@ -1,41 +1,44 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class gameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public GameObject[] characterPrefabs;
-    public Transform player1Spawn;
-    public Transform player2Spawn;
+    [SerializeField] private GameObject[] characterPrefabs;
+    [SerializeField] private Transform player1Spawn, player2Spawn;
 
-    public lifeBar1 barraJugador1; // Asignar en Inspector
-    public lifeBar2 barraJugador2; // Asignar en Inspector
+    [Header("Barras de vida")]
+    [SerializeField] private LifeBar barraVidaP1, barraVidaP2;
 
-    public Image barraPowerJugador1UI; // Esto es la Image del canvas
-    public Image barraPowerJugador2UI;
+    [Header("Barras de power")]
+    [SerializeField] private Image barraPowerP1, barraPowerP2;
 
     void Start()
     {
-        int p1 = characterSelectionManager.player1Selection;
-        int p2 = characterSelectionManager.player2Selection;
+        int sel1 = characterSelectionManager.player1Selection;
+        int sel2 = characterSelectionManager.player2Selection;
 
-        GameObject player1 = Instantiate(characterPrefabs[p1], player1Spawn.position, Quaternion.identity);
-        GameObject player2 = Instantiate(characterPrefabs[p2], player2Spawn.position, Quaternion.Euler(0, 180, 0));
+        GameObject p1 = Instantiate(characterPrefabs[sel1], player1Spawn.position, Quaternion.identity);
+        Debug.Log($"Jugador 1 instanció: {p1.name}");
+        GameObject p2 = Instantiate(characterPrefabs[sel2], player2Spawn.position, Quaternion.Euler(0, 180, 0));
 
-        // Asignar las barras de vida ya presentes en la escena
-        barraJugador1.SetTarget(player1.GetComponent<player1Life>());
-        barraJugador2.SetTarget(player2.GetComponent<player2Life>());
+        Debug.Log($"Jugador 2 instanció: {p2.name}");
 
-        // Asignar las barras de vida ya presentes en la escena
-        Image barraPower1 = GameObject.Find("fillPowerBar1")?.GetComponent<Image>();
-        Image barraPower2 = GameObject.Find("fillPowerBar2")?.GetComponent<Image>();
+        // Enlazar controles
+        var movement1 = p1.GetComponent<playerMovement>();
+        if (movement1 != null) movement1.isPlayer1 = true;
 
-        PowerBarController p1Power = player1.GetComponent<PowerBarController>();
-        PowerBarController p2Power = player2.GetComponent<PowerBarController>();
+        var movement2 = p2.GetComponent<playerMovement>();
+        if (movement2 != null) movement2.isPlayer1 = false;
 
-        if (p1Power != null && barraPowerJugador1UI != null)
-            p1Power.powerFill = barraPowerJugador1UI;
+        p1.GetComponent<PlayerAttack>().isPlayer1 = true;
+        p2.GetComponent<PlayerAttack>().isPlayer1 = false;
 
-        if (p2Power != null && barraPowerJugador2UI != null)
-            p2Power.powerFill = barraPowerJugador2UI;
+        // Enlazar barras
+        barraVidaP1.SetTarget(p1.GetComponent<CharacterLife>());
+        barraVidaP2.SetTarget(p2.GetComponent<CharacterLife>());
+
+        p1.GetComponent<PowerBarController>().powerFill = barraPowerP1;
+        p2.GetComponent<PowerBarController>().powerFill = barraPowerP2;
     }
 }
+

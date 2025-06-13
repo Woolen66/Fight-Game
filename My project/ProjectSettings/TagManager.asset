@@ -9,6 +9,7 @@ TagManager:
   - attackP1
   - attackP2
   - PanelUI
+  - Player1
   layers:
   - Default
   - TransparentFX

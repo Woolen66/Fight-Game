@@ -1,25 +1,24 @@
 {
-  "players": [
-    {
-      "player_id": "Juanito",
-      "stats": {
-        "wins": 50,
-        "losses": 30,
-        "clean_wins": 20,
-        "total_damage": 125000,
-        "special_ability_uses": 120
-      }
-    },
-    {
-      "player_id": "Maria123",
-      "stats": {
-        "wins": 75,
-        "losses": 25,
-        "clean_wins": 45,
-        "total_damage": 200000,
-        "special_ability_uses": 150
-      }
-    }
-  ]
+    "players": [
+        {
+            "player_id": "Pepe",
+            "stats": {
+                "wins": 8,
+                "losses": 2,
+                "clean_wins": 20,
+                "total_damage": 730.0,
+                "special_ability_uses": 120
+            }
+        },
+        {
+            "player_id": "Maria",
+            "stats": {
+                "wins": 2,
+                "losses": 8,
+                "clean_wins": 45,
+                "total_damage": 190.0,
+                "special_ability_uses": 150
+            }
+        }
+    ]
 }
-

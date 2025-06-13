@@ -106,13 +106,13 @@ GameObject:
   - component: {fileID: 1971007231764094484}
   - component: {fileID: 3009099424543008821}
   - component: {fileID: 2143908438914083343}
-  - component: {fileID: 9126651117444585846}
   - component: {fileID: 929651324291658933}
   - component: {fileID: 644942870804880158}
   - component: {fileID: 46449784421375208}
+  - component: {fileID: -7957701586831561201}
   m_Layer: 0
   m_Name: ryu
-  m_TagString: Player
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -285,22 +285,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &9126651117444585846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6870499305674030604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89ab573ffbdcef34e9172de32433f4f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 7
-  animator: {fileID: 1971007231764094484}
-  canMove: 1
 --- !u!114 &929651324291658933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,14 +298,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   punch1Control: {fileID: 4817759791960664238}
-  punch1Radio: 0.3
+  punch1Radius: 0.2
   punch2Control: {fileID: 7495352147616317030}
-  punch2Radio: 0.3
+  punch2Radius: 0.2
   kickControl: {fileID: 4823241612966616068}
-  kickRadio: 0.3
+  kickRadius: 0.2
   attackDamage: 10
   animator: {fileID: 1971007231764094484}
   waitTime: 0
+  isPlayer1: 1
 --- !u!114 &644942870804880158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,11 +319,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da70b4c18a1668f40894bca9117de107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLife: 100
+  maxLife: 100
   animator: {fileID: 1971007231764094484}
-  movementScript: {fileID: 9126651117444585846}
+  movementScript: {fileID: 0}
   rb: {fileID: 2143908438914083343}
   powerBar: {fileID: 46449784421375208}
+  player2: 
+  player2Data:
+    player_id: 
+    stats:
+      wins: 0
+      losses: 0
+      clean_wins: 0
+      total_damage: 0
+      special_ability_uses: 0
+  player1: 
+  player1Data:
+    player_id: 
+    stats:
+      wins: 0
+      losses: 0
+      clean_wins: 0
+      total_damage: 0
+      special_ability_uses: 0
 --- !u!114 &46449784421375208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,3 +357,20 @@ MonoBehaviour:
   powerFill: {fileID: 0}
   maxPower: 50
   currentPower: 0
+--- !u!114 &-7957701586831561201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6870499305674030604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8767844c3afe74142b6fc9ec2726d08d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  jumpForce: 7
+  isPlayer1: 1
+  animator: {fileID: 1971007231764094484}
+  canMove: 1

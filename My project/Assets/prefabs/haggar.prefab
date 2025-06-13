@@ -105,11 +105,11 @@ GameObject:
   - component: {fileID: 3812992580541120020}
   - component: {fileID: 8801612788740707589}
   - component: {fileID: 8910823144687013676}
-  - component: {fileID: 4789771658739146918}
   - component: {fileID: 2495108598552388344}
   - component: {fileID: 3184226554753153725}
   - component: {fileID: 4512883044702526421}
   - component: {fileID: 9009247588439837387}
+  - component: {fileID: 1884192918102457857}
   m_Layer: 0
   m_Name: haggar
   m_TagString: Player2
@@ -226,29 +226,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   jumpForce: 7
+  isPlayer1: 1
   animator: {fileID: 8801612788740707589}
   canMove: 1
---- !u!114 &4789771658739146918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8942346573121538327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1efb1404b89acbc4c80c75cd93634694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  punch1Control: {fileID: 9038133068983479310}
-  punch1Radio: 0.3
-  punch2Control: {fileID: 1620118498140856570}
-  punch2Radio: 0.3
-  kickControl: {fileID: 187091965855964956}
-  kickRadio: 0.3
-  attackDamage: 10
-  animator: {fileID: 8801612788740707589}
-  waitTime: 0
 --- !u!114 &2495108598552388344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e3e04dd4eb4f74428a8149a8d1e9f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLife: 100
+  maxLife: 100
   animator: {fileID: 8801612788740707589}
   movementScript: {fileID: 8910823144687013676}
   rb: {fileID: 4512883044702526421}
@@ -354,3 +334,25 @@ MonoBehaviour:
   powerFill: {fileID: 0}
   maxPower: 50
   currentPower: 0
+--- !u!114 &1884192918102457857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942346573121538327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba39c11ade8080d43a29f6066cd228ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch1Control: {fileID: 9038133068983479310}
+  punch1Radius: 0.3
+  punch2Control: {fileID: 1620118498140856570}
+  punch2Radius: 0.3
+  kickControl: {fileID: 187091965855964956}
+  kickRadius: 0.3
+  attackDamage: 10
+  animator: {fileID: 8801612788740707589}
+  waitTime: 0
+  isPlayer1: 1

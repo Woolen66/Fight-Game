@@ -2,61 +2,31 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.IO;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
+using System;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStatsInfo : MonoBehaviour
 {
     public TMP_InputField inputName;
     public TMP_Text stats;
     public Button searchButton;
 
-    [System.Serializable]
-    public class Stats
-    {
-        public int wins;
-        public int losses;
-        public int clean_wins;
-        public int total_damage;
-        public int special_ability_uses;
-    }
-
-    [System.Serializable]
-    public class Player
-    {
-        public string player_id;
-        public Stats stats;
-    }
-
-    [System.Serializable]
-    public class PlayerData
-    {
-        public List<Player> players;
-    }
-
-    private PlayerData playerDatabase;
+    private PlayerDataList playerDatabase = new PlayerDataList();
+    private string filePath;
 
     void Start()
     {
-        try
-        {
-            string path = Path.Combine(Application.streamingAssetsPath, "database.json");
+        filePath = Path.Combine(Application.streamingAssetsPath, "database.json");
 
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(path);
-                playerDatabase = JsonConvert.DeserializeObject<PlayerData>(json);
-            }
-            else
-            {
-                Debug.LogWarning("database.json not found.");
-            }
-        }
-        catch (System.Exception e)
+        if (File.Exists(filePath))
         {
-            Debug.LogError("Error loading JSON: " + e.Message);
+            string json = File.ReadAllText(filePath);
+            playerDatabase = JsonConvert.DeserializeObject<PlayerDataList>(json);
+        }
+        else
+        {
+            SaveDatabase(); // Crear archivo vacío
         }
     }
 
@@ -66,14 +36,24 @@ public class PlayerStats : MonoBehaviour
 
         if (string.IsNullOrEmpty(name))
         {
-            stats.text = "Please enter a player name.";
+            stats.text = "Por favor, ingresa un nombre de jugador.";
             return;
         }
 
         Player player = playerDatabase.players.Find(p =>
-            p.player_id.Equals(name, System.StringComparison.OrdinalIgnoreCase));
+            p.player_id.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-        if (player != null)
+        if (player == null)
+        {
+            // Crear nuevo jugador si no existe
+            player = new Player { player_id = name };
+            playerDatabase.players.Add(player);
+            SaveDatabase();
+
+            stats.text = $"Nuevo jugador creado: {name}\n\nEstadísticas iniciales:\n" +
+                         $"Ganadas: 0\nPerdidas: 0\nVictorias limpias: 0\nDaño total: 0\nHabilidad especial usadas: 0";
+        }
+        else
         {
             stats.text =
                 $"Jugador: {player.player_id}\n" +
@@ -82,17 +62,25 @@ public class PlayerStats : MonoBehaviour
                 $"Victorias limpias: {player.stats.clean_wins}\n" +
                 $"Daño total: {player.stats.total_damage}\n" +
                 $"Habilidad especial usadas: {player.stats.special_ability_uses}";
+        }
 
-            
-            inputName.gameObject.SetActive(false);
-            searchButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            stats.text = "Player not found.";
-        }
+        inputName.gameObject.SetActive(false);
+        searchButton.gameObject.SetActive(false);
     }
 
+    private void SaveDatabase()
+    {
+        try
+        {
+            string json = JsonConvert.SerializeObject(playerDatabase, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+            Debug.Log("Base de datos actualizada.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error al guardar JSON: " + e.Message);
+        }
+    }
 
     public void Back()
     {

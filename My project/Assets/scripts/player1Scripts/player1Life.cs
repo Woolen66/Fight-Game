@@ -1,39 +1,46 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine;
 
-public class player1Life : MonoBehaviour
+public class player1Life : CharacterLife
 {
-    public float playerLife = 100;
     public Animator animator;
-    public player1Movement movementScript;
+    public playerMovement movementScript;
     public Rigidbody2D rb;
     public PowerBarController powerBar;
     private GameObject winObject;
 
-    private void Start()
+    public string player2;
+    public Player player2Data;
+    public string player1;
+    public Player player1Data;
+
+    void Start()
     {
         winObject = GameObject.FindGameObjectWithTag("PanelUI");
+        player2 = characterSelectionManager.player2Username;
+        player2Data = PlayerDatabase.Instance.GetPlayerByName(player2);
+
+        player1 = characterSelectionManager.player1Username;
+        player1Data = PlayerDatabase.Instance.GetPlayerByName(player1);
     }
-    public void takeDamage(float damage)
+
+    public override void takeDamage(int damage)
     {
-        playerLife -= damage;
+        currentLife -= damage;
+        player2Data.stats.total_damage += damage;
 
-        if (playerLife <= 0)
+        if (currentLife <= 0)
         {
-            win winScript = winObject.GetComponent<win>();
-            winScript.FinishGame("Player2");
-
+            winObject.GetComponent<win>().FinishGame("Player2");
+            player2Data.stats.wins += 1;
+            player1Data.stats.losses += 1;
+            PlayerDatabase.Instance.SaveData();
         }
 
-        if(powerBar.currentPower < powerBar.maxPower)
+        if (powerBar.currentPower < powerBar.maxPower)
             powerBar.AddPower(damage);
 
-        // Animacion de daño
         animator.SetTrigger("hit");
-
-        // Bloquear movimiento temporalmente
         StartCoroutine(HitReaction());
     }
 
@@ -42,11 +49,10 @@ public class player1Life : MonoBehaviour
         if (movementScript != null)
             movementScript.canMove = false;
 
-        // Empujar un poco hacia la izquierda
         if (rb != null)
             rb.linearVelocity = new Vector2(-2f, rb.linearVelocity.y);
 
-        yield return new WaitForSeconds(0.4f); // Duracion de la animacion de daño
+        yield return new WaitForSeconds(0.4f);
 
         if (movementScript != null)
             movementScript.canMove = true;
